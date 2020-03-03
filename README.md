@@ -1,0 +1,1 @@
+example for life-cycle-method
