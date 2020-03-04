@@ -17,15 +17,24 @@ export default class App extends Component {
 
 
   componentDidMount(){
-    fetch("https://jsonplaceholder.typicode.com/posts")
-    .then(res=>res.json())
-    .then(convertedData=>{
-        this.setState({
-          data:convertedData
-        })
-    })
-    console.log("Fetching data in app")
+    this.fetchData()
   }
+
+  fetchData = async () => {
+    try {
+      const data = await fetch("http://newsapi.org/v2/top-headlines?country=ar&apiKey=f7485d2167cc493f9d605461d0779042")
+  
+      const jsonedData = await data.json()
+      this.setState({
+        data: jsonedData.articles
+      })
+  
+      console.log(jsonedData)
+     } catch(err) {
+       console.log(err)
+     }
+  }
+    
 /*  
   shouldComponentUpdate(nextProps,nextState){
     console.log("ShouldComponentUpdate in App")
@@ -34,10 +43,11 @@ export default class App extends Component {
 
   componentDidUpdate(prevProps,preState){
     console.log("updated in App")
-  }
+  }*/
   componentWillUnmount(){
     console.log("componentWillUnmount in App")
-  } */
+  } 
+
   render() {
    /*  console.log("render in App") */
  
@@ -45,7 +55,6 @@ export default class App extends Component {
       <div>
         <h1>Lifecycles in React</h1>
         {this.state.status?<Child data={this.state.data}count={this.state.count}/>: null } 
-        <button onClick={()=>this.setState({count:this.state.count+1})}>Click</button>
         <button onClick={()=>this.setState({status:!this.state.status})}>Mount and unMount Child</button>
       </div>
     )
